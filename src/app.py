@@ -3,7 +3,7 @@ from flask import redirect, request, session, make_response
 from oidc import get_oidc_client
 from oic import rndstr
 import yaml
-from oic.oic.message import AccessTokenResponse, AuthorizationResponse
+from oic.oic.message import AuthorizationResponse
 import base64
 import argparse
 
@@ -71,7 +71,7 @@ def create_app(config_path):
             client_secret=config['oidc']['client_secret'],
         )
         
-        id_token = resp['id_token'].to_jwt()
+        id_token = resp.raw_id_token
         user_email = resp['id_token']['email']
     
         response_format = 'cat << EOF > ~/.kube/config\n{}\nEOF'
